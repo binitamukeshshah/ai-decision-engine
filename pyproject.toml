@@ -1,0 +1,35 @@
+[project]
+name = "ai-decision-engine"
+version = "0.1.0"
+description = "A local-first, privacy-aware, budget-constrained AI model router"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Binita Shah" }]
+requires-python = ">=3.12"
+dependencies = ["httpx>=0.28.1"]
+
+[project.scripts]
+ai-decision-engine = "ai_decision_engine.cli:main"
+
+[dependency-groups]
+dev = ["mypy>=1.17", "pytest>=8.4", "pytest-asyncio>=1.1", "ruff>=0.12"]
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+markers = ["integration: requires an explicitly enabled live Ollama or OpenClaw service"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["ai_decision_engine"]

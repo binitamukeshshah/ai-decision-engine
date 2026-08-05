@@ -1,0 +1,98 @@
+{
+  "configuredModels": [
+    "ollama/qwen3:8b",
+    "openai/gpt-5.6-sol",
+    "anthropic/claude-opus-4-8",
+    "anthropic/claude-sonnet-5",
+    "google/gemini-3.1-pro-preview"
+  ],
+  "auth": {
+    "oauth": [
+      {
+        "provider": "openai",
+        "type": "oauth",
+        "status": "valid",
+        "usable": true,
+        "expiresAt": "2099-08-11T00:00:00Z"
+      },
+      {
+        "provider": "claude-cli",
+        "profile": "anthropic:claude-cli",
+        "type": "oauth",
+        "status": "valid",
+        "usable": true,
+        "expiresAt": "2099-08-11T00:00:00Z"
+      },
+      {
+        "provider": "google",
+        "type": "api_key",
+        "status": "valid",
+        "usable": true
+      }
+    ],
+    "providers": [
+      {
+        "provider": "openai",
+        "windows": [
+          {"label": "5h", "remainingPercent": 63.0},
+          {"label": "weekly", "usedPercent": 20.0}
+        ]
+      },
+      {
+        "provider": "anthropic",
+        "windows": [
+          {"label": "5h", "remainingPercent": 54.0},
+          {"label": "weekly", "remainingPercent": 71.0}
+        ]
+      },
+      {
+        "provider": "google",
+        "windows": [
+          {"label": "rate-limit", "remainingPercent": 72.0}
+        ]
+      }
+    ],
+    "probes": {
+      "results": [
+        {
+          "provider": "ollama",
+          "model": "ollama/qwen3:8b",
+          "source": "local",
+          "mode": "local",
+          "status": "ok",
+          "latencyMs": 412
+        },
+        {
+          "provider": "openai",
+          "model": "openai/gpt-5.6-sol",
+          "profileId": "openai:default",
+          "label": "private@example.com",
+          "source": "profile",
+          "mode": "oauth",
+          "status": "ok",
+          "latencyMs": 921
+        },
+        {
+          "provider": "anthropic",
+          "model": "anthropic/claude-opus-4-8",
+          "profileId": "anthropic:claude-cli",
+          "label": "anthropic:claude-cli",
+          "source": "profile",
+          "mode": "oauth",
+          "status": "ok",
+          "latencyMs": 1862
+        },
+        {
+          "provider": "google",
+          "model": "google/gemini-3.1-pro-preview",
+          "profileId": "google:default",
+          "label": "private@example.com",
+          "source": "profile",
+          "mode": "oauth",
+          "status": "rate_limit",
+          "latencyMs": 734
+        }
+      ]
+    }
+  }
+}
