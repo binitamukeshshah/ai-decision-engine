@@ -1,0 +1,416 @@
+{
+  "benchmark": "decision-engine-v1",
+  "version": "1.0",
+  "purpose": "Evaluate routing-policy behavior in selection-only mode without executing models or incurring API spend.",
+  "methodology": {
+    "hard_expectations": "Cases where privacy, required capabilities, explicit complexity, or cloud permission define an objective routing constraint.",
+    "policy_expectations": "Cases where the expected reasoning/coding tier represents the product policy to be tested, not objective model-quality ground truth.",
+    "excluded_claims": "This benchmark does not measure generated-answer quality."
+  },
+  "cases": [
+    {
+      "id": "chat-01",
+      "category": "simple_chat",
+      "prompt": "Explain why the sky appears blue to a 10-year-old.",
+      "expected": {
+        "reasoning": "low",
+        "route": "local"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "chat-02",
+      "category": "simple_chat",
+      "prompt": "Rewrite this sentence to be clearer: The meeting that we had yesterday was one in which several decisions were made.",
+      "expected": {
+        "reasoning": "low",
+        "route": "local"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "chat-03",
+      "category": "simple_chat",
+      "prompt": "Give me five concise title ideas for a weekly project update.",
+      "expected": {
+        "reasoning": "low",
+        "route": "local"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "chat-04",
+      "category": "simple_chat",
+      "prompt": "Summarize the difference between precision and recall in two sentences.",
+      "expected": {
+        "reasoning": "low",
+        "route": "local"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "reason-01",
+      "category": "reasoning",
+      "prompt": "Compare three pricing strategies for a new B2B SaaS product, weigh adoption, revenue, and implementation tradeoffs, and recommend a staged launch.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "reasoning": "high",
+        "route": "cloud_eligible"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "reason-02",
+      "category": "reasoning",
+      "prompt": "Evaluate build, buy, and partner approaches for an enterprise search product. Compare cost, speed, control, privacy, operational risk, and migration complexity; recommend a phased strategy.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "reasoning": "high",
+        "route": "cloud_eligible"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "reason-03",
+      "category": "reasoning",
+      "prompt": "Review this architecture across security, reliability, latency, cost, operations, scalability, migration, and failure modes. Compare multiple alternatives, synthesize the tradeoffs, recommend a phased approach, and define rollback criteria.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "reasoning": "extreme",
+        "route": "cloud_eligible"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "reason-04",
+      "category": "reasoning",
+      "prompt": "List pros and cons of launching in two markets.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "reasoning": "moderate",
+        "route": "adequate"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "reason-05",
+      "category": "reasoning",
+      "prompt": "Design a decision framework for choosing between centralized and federated ownership. Assess incentives, execution speed, accountability, failure modes, and operating cost.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "reasoning": "high",
+        "route": "cloud_eligible"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "reason-explicit-01",
+      "category": "explicit_complexity",
+      "prompt": "Analyze the decision.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "reasoning_complexity": "high"
+      },
+      "expected": {
+        "reasoning": "high",
+        "route": "cloud_eligible"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "reason-explicit-02",
+      "category": "explicit_complexity",
+      "prompt": "Analyze the decision.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "reasoning_complexity": "extreme"
+      },
+      "expected": {
+        "reasoning": "extreme",
+        "route": "cloud_eligible"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "code-01",
+      "category": "coding",
+      "prompt": "Write a Python function that returns the larger of two integers.",
+      "request": {
+        "required_capabilities": [
+          "coding"
+        ],
+        "coding_complexity": "low"
+      },
+      "expected": {
+        "coding": "low",
+        "route": "adequate"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "code-02",
+      "category": "coding",
+      "prompt": "Implement a typed Python parser for a small JSON configuration and include validation tests.",
+      "request": {
+        "required_capabilities": [
+          "coding"
+        ],
+        "coding_complexity": "moderate"
+      },
+      "expected": {
+        "coding": "moderate",
+        "route": "adequate"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "code-03",
+      "category": "coding",
+      "prompt": "Refactor a concurrent Python service with retries, idempotency, transactional state, and failure recovery; explain the architectural tradeoffs.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "required_capabilities": [
+          "coding"
+        ],
+        "coding_complexity": "high",
+        "reasoning_complexity": "high"
+      },
+      "expected": {
+        "coding": "high",
+        "reasoning": "high",
+        "route": "cloud_eligible"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "privacy-01",
+      "category": "privacy",
+      "prompt": "Summarize this confidential customer incident report.",
+      "request": {
+        "privacy": "local_only"
+      },
+      "expected": {
+        "privacy": "local_only",
+        "route": "local"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "privacy-02",
+      "category": "privacy",
+      "prompt": "Review this patient medical note and summarize the follow-up items.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "privacy": "local_only",
+        "route": "local"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "privacy-03",
+      "category": "privacy",
+      "prompt": "Help me organize these proprietary product plans.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "privacy": "local_only",
+        "route": "local"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "privacy-04",
+      "category": "privacy",
+      "prompt": "Compare three public marketing strategies.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "privacy": "cloud_allowed",
+        "route": "adequate"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "permission-01",
+      "category": "cloud_permission",
+      "prompt": "Compare three strategies and recommend one.",
+      "expected": {
+        "privacy": "local_only",
+        "route": "local_or_decline"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "permission-02",
+      "category": "cloud_permission",
+      "prompt": "Compare three strategies and recommend one.",
+      "request": {
+        "privacy": "cloud_allowed"
+      },
+      "expected": {
+        "privacy": "cloud_allowed",
+        "route": "cloud_eligible"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "unsupported-01",
+      "category": "unsupported",
+      "prompt": "Describe the attached image.",
+      "request": {
+        "has_image": true,
+        "multimodal_required": true
+      },
+      "expected": {
+        "outcome": "decline",
+        "reason": "unsupported_vision"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "unsupported-02",
+      "category": "unsupported",
+      "prompt": "What is the latest breaking news today?",
+      "request": {
+        "required_capabilities": [
+          "current_information"
+        ]
+      },
+      "expected": {
+        "outcome": "decline",
+        "reason": "unsupported_current_information"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "unsupported-03",
+      "category": "unsupported",
+      "prompt": "Call an external tool to book this appointment.",
+      "request": {
+        "required_capabilities": [
+          "tool_use"
+        ]
+      },
+      "expected": {
+        "outcome": "decline",
+        "reason": "unsupported_tool_use"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "unsupported-04",
+      "category": "unsupported",
+      "prompt": "Create embeddings for these documents.",
+      "request": {
+        "required_capabilities": [
+          "embeddings"
+        ]
+      },
+      "expected": {
+        "outcome": "decline",
+        "reason": "unsupported_embeddings"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "context-01",
+      "category": "context",
+      "prompt": "Process this long document.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "required_capabilities": [
+          "long_context"
+        ],
+        "estimated_input_tokens": 90000,
+        "estimated_output_tokens": 1000
+      },
+      "expected": {
+        "route": "context_adequate"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "context-02",
+      "category": "context",
+      "prompt": "Process this very large document.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "required_capabilities": [
+          "long_context"
+        ],
+        "estimated_input_tokens": 500000,
+        "estimated_output_tokens": 1000
+      },
+      "expected": {
+        "outcome": "decline_if_no_context_adequate_model"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "budget-01",
+      "category": "budget",
+      "prompt": "Compare three strategies and recommend one.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "reasoning_complexity": "high",
+        "max_cloud_cost": 0
+      },
+      "expected": {
+        "route": "zero_incremental_cost_or_decline"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "latency-01",
+      "category": "latency",
+      "prompt": "Give me a concise explanation of opportunity cost.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "latency_preference": "fast"
+      },
+      "expected": {
+        "route": "fastest_adequate"
+      },
+      "basis": "policy"
+    },
+    {
+      "id": "quality-01",
+      "category": "quality_threshold",
+      "prompt": "Analyze this decision.",
+      "request": {
+        "privacy": "cloud_allowed",
+        "minimum_quality": 0.9
+      },
+      "expected": {
+        "route": "quality_at_least_0.9"
+      },
+      "basis": "hard"
+    },
+    {
+      "id": "quality-02",
+      "category": "quality_threshold",
+      "prompt": "Explain this simply.",
+      "request": {
+        "minimum_quality": 0.5
+      },
+      "expected": {
+        "route": "local"
+      },
+      "basis": "hard"
+    }
+  ]
+}
